@@ -8,15 +8,17 @@ def emot_detect():
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
 
-    displayed_response = f"For the given statement, the system response is \
-    'anger': {response['anger']}, \
-    'disgust': {response['disgust']}, \
-    'fear': {response['fear']}, \
-    'joy': {response['joy']} and \
-    'sadness': {response['sadness']}. \
-    The dominant emotion is  <b>{response['dominant_emotion']}</b>."
-
-    return displayed_response
+    if response['dominant_emotion'] is None:
+        return "Invalid text! Please try again."
+    else:
+        displayed_response = f"For the given statement, the system response is \
+        'anger': {response['anger']}, \
+        'disgust': {response['disgust']}, \
+        'fear': {response['fear']}, \
+        'joy': {response['joy']} and \
+        'sadness': {response['sadness']}. \
+        The dominant emotion is  <b>{response['dominant_emotion']}</b>."
+        return displayed_response
     
 @app.route("/")
 def render_index_page():
